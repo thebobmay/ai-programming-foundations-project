@@ -1,0 +1,9 @@
+# Generated with: pip freeze > requirements.txt
+# Run after activating your Python environment and installing dependencies.
+# This file will be updated before final submission.
+
+pandas
+numpy
+matplotlib
+seaborn
+jupyter

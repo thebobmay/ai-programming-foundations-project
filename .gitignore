@@ -1,0 +1,14 @@
+__pycache__/
+.ipynb_checkpoints/
+.env
+.venv/
+venv/
+*.pyc
+.DS_Store
+
+# Working files not for submission
+Rubric_Alignment_Checklist.md
+
+# Large model artifacts
+outputs/model_artifacts/*.pt
+outputs/model_artifacts/*.pkl
