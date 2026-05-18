@@ -55,7 +55,7 @@ The workflow is implemented in five stages, each corresponding to a section of t
 
 Figure 1 shows genre distribution by title count and total global sales. Action is the most represented genre with 3,500 titles. Sports and role playing games rank second and third by count. By total global sales, however, Sports produces more revenue than most higher count genres, indicating that Sports titles sell at a higher average rate per game than Action titles. Shooter and Platform genres also generate disproportionately high revenue relative to their title counts, pointing to a systematic difference between volume driven and revenue-efficient genre segments.
 
-Figure 2 shows the global sales distribution on a log scale. The distribution is strongly right skewed: a small number of titles account for a large share of total industry sales, while the majority of games sell fewer than one million units globally. The Moderate commercial tier, defined as 0.1 to 1 million global sales, contains 48.3 percent of all titles and serves as the realistic benchmark for midrange commercial performance.
+Figure 2 shows the global sales distribution on a log scale. The distribution is strongly right skewed: a small number of titles account for a large share of total industry sales, while the majority of games sell fewer than one million units globally. This long tail structure, in which a small number of hits dominate revenue while a large volume of modest sellers collectively contribute the remainder, is a well documented pattern in media and entertainment markets (Anderson, 2006). The Moderate commercial tier, defined as 0.1 to 1 million global sales, contains 48.3 percent of all titles and serves as the realistic benchmark for midrange commercial performance.
 
 Figure 3 plots critic score and user score against global sales for all reviewed titles. Users rate games slightly higher on average than critics overall, though Sports and Shooter are the only genres where critics rate higher. The Pearson correlation between critic score and global sales is 0.237, indicating that higher rated titles tend to sell somewhat better but that review scores alone explain a small fraction of sales variance. The relationship is directional rather than predictive.
 
@@ -95,7 +95,7 @@ This analysis was designed as a market context layer, not a model training pipel
 
 **Supporting machine learning.** The cleaned dataset is a flat feature table suitable for supervised learning experiments. Genre, platform, publisher, release year, and ESRB rating are categorical features that can be encoded with minimal additional preprocessing. Global sales and critic score are plausible regression targets for commercial viability or quality prediction models. The modular src/ design transfers directly to an ML pipeline, with the cleaning functions serving as preprocessing steps and the EDA summaries serving as a validation layer to detect distribution shift between training and evaluation data.
 
-**Preparing for neural networks.** Neural networks are generally not well suited to tabular data at this scale. The cleaned dataset has roughly 17,000 rows, which is likely too small for deep learning to outperform tree based models without additional data. A neural approach would require enriching the dataset with review text, cover art, or gameplay feature embeddings extracted from descriptions. The systematic review coverage gap for pre-2000 titles would also become a more serious problem in a deep learning setting, requiring explicit era conditioning or targeted data collection for classic titles.
+**Preparing for neural networks.** Neural networks are generally not well suited to tabular data at this scale. Research has shown that tree based models consistently outperform deep learning on structured tabular datasets, particularly at smaller scales where the inductive biases of neural networks provide little advantage (Grinsztajn et al., 2022). The cleaned dataset has roughly 17,000 rows, which is likely too small for deep learning to outperform tree based models without additional data. A neural approach would require enriching the dataset with review text, cover art, or gameplay feature embeddings extracted from descriptions. With richer inputs of that kind, transformer architectures could learn latent genre representations that go beyond discrete labels (Vaswani et al., 2017). The systematic review coverage gap for pre-2000 titles would also become a more serious problem in a deep learning setting, requiring explicit era conditioning or targeted data collection for classic titles.
 
 **Agentic automation.** The current workflow is reproducible but manual. A planning agent could inspect a new dataset, identify column types and missing value patterns, propose a cleaning strategy, and execute it without step by step direction. A monitoring agent could ingest updated sales or review data on a schedule, rerun the EDA summaries, and flag statistically significant shifts in genre distribution or score patterns. The modular function design in this project, with cleaning, inspection, and EDA in distinct callable units, is already structured to make each stage straightforward to wrap as an agent tool.
 
@@ -103,8 +103,14 @@ This analysis was designed as a market context layer, not a model training pipel
 
 ## References
 
+Anderson, C. (2006). *The long tail: Why the future of business is selling less of more*. Hyperion.
+
 Danchev, V. (2022). Reproducible Data Science with Python: An Open Learning Resource. *Journal of Open Source Education, 5*(56), 156. [https://doi.org/10.21105/jose.00156](https://doi.org/10.21105/jose.00156)
+
+Grinsztajn, L., Oyallon, E., & Varoquaux, G. (2022). Why tree-based models still outperform deep learning on tabular data. *Advances in Neural Information Processing Systems, 35*, 507–520.
+
+kendallgillies. (2017). *Video game sales and ratings* [Data set]. Kaggle. https://www.kaggle.com/datasets/kendallgillies/video-game-sales-and-ratings/data
 
 National Institute of Standards and Technology. (2023). *Artificial intelligence risk management framework (AI RMF 1.0)*. U.S. Department of Commerce. [https://doi.org/10.6028/NIST.AI.100-1](https://doi.org/10.6028/NIST.AI.100-1)
 
-kendallgillies. (2017). *Video game sales and ratings* [Data set]. Kaggle. https://www.kaggle.com/datasets/kendallgillies/video-game-sales-and-ratings/data
+Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., & Polosukhin, I. (2017). Attention is all you need. *Advances in Neural Information Processing Systems, 30*, 5998–6008.
