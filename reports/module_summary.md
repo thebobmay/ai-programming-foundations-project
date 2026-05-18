@@ -1,7 +1,7 @@
 # Reproducible Data Workflow for Video Game Sales, Ratings, and Genre Trends
 
 **Robert Mayfield**
-Udacity AI MBA Capstone — Project 1 of 7
+Udacity AI MBA Capstone: Project 1 of 7
 
 ---
 
@@ -57,7 +57,7 @@ Figure 1 shows genre distribution by title count and total global sales. Action 
 
 Figure 2 shows the global sales distribution on a log scale. The distribution is strongly right skewed: a small number of titles account for a large share of total industry sales, while the majority of games sell fewer than one million units globally. This long tail structure, in which a small number of hits dominate revenue while a large volume of modest sellers collectively contribute the remainder, is a well documented pattern in media and entertainment markets (Anderson, 2006). The Moderate commercial tier, defined as 0.1 to 1 million global sales, contains 48.3 percent of all titles and serves as the realistic benchmark for midrange commercial performance.
 
-Figure 3 plots critic score and user score against global sales for all reviewed titles. Users rate games slightly higher on average than critics overall, though Sports and Shooter are the only genres where critics rate higher. The Pearson correlation between critic score and global sales is 0.237, indicating that higher rated titles tend to sell somewhat better but that review scores alone explain a small fraction of sales variance. The relationship is directional rather than predictive.
+Figure 3 is a diverging bar chart showing the gap between mean critic and mean user scores by genre, with both scores placed on a 0 to 100 scale for direct comparison. Bars extending right indicate genres where critics rate higher than users; bars extending left indicate genres where users rate higher. Sports and Shooter are the only genres where critics assign higher scores, with Sports showing the largest critic-favoring gap at 2.86 points. Adventure shows the largest user-favoring gap at 5.23 points, suggesting that players assign more value to narrative experience than critics do. Role Playing and Platform show similar user-favoring gaps in the 3 to 4 point range. The exploratory analysis also computes Pearson correlations between review scores and global sales: critic score produces a modest positive relationship at r = 0.237, while user score is nearly uncorrelated at r = 0.088. Both values are point estimates subject to the weakly satisfied linearity assumption given the right-skewed sales distribution.
 
 Figure 4 shows release volume by year. Release counts rose through the 1990s and peaked in 2009 at 1,550 titles before declining sharply. The decline after 2012 reflects the shift toward digital distribution channels and does not indicate an actual contraction in game market activity.
 
@@ -71,7 +71,7 @@ This analysis applies the bias taxonomy described in the NIST AI Risk Management
 
 **Historical bias** is present in the sales estimates, which were built retrospectively from retail scanner data and community contributions. Early console generations have sparse coverage, and the Japanese market is systematically underrepresented relative to its actual share of global game revenue. Sales figures for pre-1985 titles are unreliable and treated as indicative only.
 
-**Measurement bias** is present in the review data. Metacritic launched in 2001, so titles released before that year carry almost no review data. The analysis quantifies this gap: pre-2000 titles have a review coverage rate near zero percent, compared to roughly 50 to 70 percent for post-2000 titles. The disparate coverage ratio is approximately 0.07, meaning early era titles are reviewed at about 7 percent of the rate of later titles. Any score based conclusion reflects the post-2000 era and cannot be generalized to earlier game history. When missing data are not random, common cleaning approaches can shift results and amplify the underlying bias (Danchev, 2022).
+**Measurement bias** is present in the review data. Metacritic launched in 2001, so titles released before that year carry almost no review data. The analysis quantifies this gap: pre-2000 titles have a review coverage rate near zero percent, compared to typically between 36 and 76 percent for post-2000 titles. The disparate coverage ratio is approximately 0.07, meaning early era titles are reviewed at about 7 percent of the rate of later titles. Any score based conclusion reflects the post-2000 era and cannot be generalized to earlier game history. When missing data are not random, common cleaning approaches can shift results and amplify the underlying bias (Danchev, 2022).
 
 **Aggregation bias** is introduced by the 12 genre labels in the dataset. These labels collapse substantial internal variation. Action games range from 2D platformers to open world shooters. Sports games include both simulation and arcade titles. Genre level summaries are useful for market characterization but mask the within genre diversity that would matter in a content recommendation or design context.
 

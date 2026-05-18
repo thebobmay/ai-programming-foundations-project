@@ -1,6 +1,6 @@
 # Reproducible Data Workflow for Video Game Sales, Ratings, and Genre Trends
 
-**Udacity AI MBA Capstone — Project 1 of 7**
+**Udacity AI MBA Capstone: Project 1 of 7**
 
 ---
 
@@ -73,7 +73,7 @@ README.md                   # This file
   ```
    pip install -r requirements.txt
   ```
-3. Extract the dataset. The zip file is already in `data/raw/`. The notebook extracts it automatically during the Data Ingestion section — no manual extraction is needed.
+3. Extract the dataset. The zip file is already in `data/raw/`. The notebook extracts it automatically during the Data Ingestion section. No manual extraction is needed.
 4. Launch the notebook:
   ```
    jupyter notebook notebooks/data_workflow.ipynb
@@ -90,7 +90,7 @@ This dataset carries several well defined biases that affect how results should 
 
 **Historical bias.** VGChartz sales estimates were built retrospectively from retail scanner data and community contributions. Early console generations (pre-NES) have little to no coverage, and Japanese domestic titles are systematically underrepresented relative to their actual market share. Sales figures should be treated as directional estimates rather than authoritative counts.
 
-**Measurement bias.** Critic and user scores come from Metacritic, which launched in 2001. Titles released before that year have almost no review coverage. The analysis quantifies this gap: pre-2000 titles have a coverage rate near zero percent compared to roughly 50 to 70 percent for post-2000 titles. Any score based analysis reflects the modern era, not the full history of the industry.
+**Measurement bias.** Critic and user scores come from Metacritic, which launched in 2001. Titles released before that year have almost no review coverage. The analysis quantifies this gap: pre-2000 titles have a coverage rate near zero percent compared to typically between 36 and 76 percent for post-2000 titles. Any score based analysis reflects the modern era, not the full history of the industry.
 
 **Aggregation bias.** The 12 genre labels in this dataset collapse substantial internal variation. Action games range from 2D platformers to open world shooters. Sports games include both simulation and arcade titles. Genre level summaries mask the within genre diversity that would matter most in a real content recommendation or design context.
 
