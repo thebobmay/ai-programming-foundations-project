@@ -14,13 +14,13 @@ The workflow is organized as a Jupyter notebook backed by reusable Python module
 
 ## Dataset
 
-**Source:** Kaggle — Video Game Sales with Ratings (VGChartz / Metacritic combined dataset)
+**Source:** Kaggle (kendallgillies, 2017). Combined web scrape from VGChartz and Metacritic, with manually entered year of release values. The dataset was compiled by kendallgillies, building on prior work by Rush Kirubi, who extended a VGChartz scrape originally created by Gregory Smith to include Metacritic review data.
 
-**File:** `data/raw/video-game-sales-ratings-data.zip`
+**File:** `data/raw/Video_Game_Sales_as_of_Jan_2017.csv.zip`
 
-**Fields:** game name, platform, year of release, genre, publisher, North American sales, European sales, Japanese sales, other regional sales, global sales, critic score, critic count, user score, user count, developer, ESRB rating.
+**Fields:** game name, platform, year of release, genre, publisher, North American sales, European sales, Japanese sales, other regional sales, global sales, critic score, critic count, user score, user count, ESRB rating.
 
-**Coverage:** Approximately 16,000 titles spanning 1980 through 2016, with meaningful review data concentrated in the 2000 to 2012 period. Pre-2000 titles are systematically underrepresented in critic and user score columns due to the later emergence of digital review platforms.
+**Coverage:** Approximately 17,000 titles spanning 1976 through 2017, with meaningful review data concentrated in the 2000 to 2012 period. Pre-2000 titles are systematically underrepresented in critic and user score columns due to the later emergence of digital review platforms.
 
 **License:** Public domain / CC0 as published on Kaggle. No personally identifiable information is present.
 
@@ -33,13 +33,13 @@ notebooks/
   data_workflow.ipynb       # Main analysis notebook (10 sections)
 
 src/
-  cleaning.py               # clean_column_names, clean_score_columns, handle_missing_values
+  cleaning.py               # clean_column_names, handle_missing_values, clean_column_types
   eda.py                    # summarize_game_market
   inspection.py             # inspect_dataframe
 
 data/
   raw/
-    video-game-sales-ratings-data.zip   # Source dataset
+    Video_Game_Sales_as_of_Jan_2017.csv.zip   # Source dataset
   processed/
     video_games_clean.csv      # Cleaned dataset output
 
@@ -90,7 +90,7 @@ This dataset carries several well defined biases that affect how results should 
 
 **Historical bias.** VGChartz sales estimates were built retrospectively from retail scanner data and community contributions. Early console generations (pre-NES) have little to no coverage, and Japanese domestic titles are systematically underrepresented relative to their actual market share. Sales figures should be treated as directional estimates rather than authoritative counts.
 
-**Measurement bias.** Critic and user scores come from Metacritic, which launched in 2001. Titles released before that year have almost no review coverage. The analysis quantifies this gap: pre-2000 titles have a coverage rate below 5 percent compared to roughly 60 percent for post-2000 titles. Any score based analysis reflects the modern era, not the full history of the industry.
+**Measurement bias.** Critic and user scores come from Metacritic, which launched in 2001. Titles released before that year have almost no review coverage. The analysis quantifies this gap: pre-2000 titles have a coverage rate near zero percent compared to roughly 50 to 70 percent for post-2000 titles. Any score based analysis reflects the modern era, not the full history of the industry.
 
 **Aggregation bias.** The 12 genre labels in this dataset collapse substantial internal variation. Action games range from 2D platformers to open world shooters. Sports games include both simulation and arcade titles. Genre level summaries mask the within genre diversity that would matter most in a real content recommendation or design context.
 
@@ -108,7 +108,7 @@ The cleaned dataset is structured as a flat feature table suitable for supervise
 
 ### How this dataset would need to change for neural networks
 
-Neural networks are not well suited to tabular data at this scale. The cleaned dataset has roughly 16,000 rows, which is likely too small for deep learning to outperform tree based models. A neural approach would require augmenting the dataset with richer inputs: review text from Metacritic or Steam, cover art, genre tag graphs, or gameplay feature embeddings derived from descriptions. The systematic review coverage gap for pre-2000 titles would also become a more serious problem in a neural setting, because a model trained on this data would have almost no signal for that era and would need explicit era conditioning to handle it appropriately.
+Neural networks are not well suited to tabular data at this scale. The cleaned dataset has roughly 17,000 rows, which is likely too small for deep learning to outperform tree based models. A neural approach would require augmenting the dataset with richer inputs: review text from Metacritic or Steam, cover art, genre tag graphs, or gameplay feature embeddings derived from descriptions. The systematic review coverage gap for pre-2000 titles would also become a more serious problem in a neural setting, because a model trained on this data would have almost no signal for that era and would need explicit era conditioning to handle it appropriately.
 
 ### How agentic automation could assist this workflow
 
