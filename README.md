@@ -86,15 +86,17 @@ Output figures are written to `outputs/figures/` and the cleaned dataset is writ
 
 ## Bias and Responsible Data Handling
 
-This dataset carries several well defined biases that affect how results should be interpreted.
+This dataset carries several well defined biases that affect how results should be interpreted. The bias types below follow the taxonomy defined in the NIST AI Risk Management Framework (National Institute of Standards and Technology, 2023).
 
 **Historical bias.** VGChartz sales estimates were built retrospectively from retail scanner data and community contributions. Early console generations (pre-NES) have little to no coverage, and Japanese domestic titles are systematically underrepresented relative to their actual market share. Sales figures should be treated as directional estimates rather than authoritative counts.
 
-**Measurement bias.** Critic and user scores come from Metacritic, which launched in 2001. Titles released before that year have almost no review coverage. The analysis quantifies this gap: pre-2000 titles have a coverage rate near zero percent compared to typically between 36 and 76 percent for post-2000 titles. Any score based analysis reflects the modern era, not the full history of the industry.
+**Measurement bias.** Critic and user scores come from Metacritic, which launched in 2001. Titles released before that year have almost no review coverage. The analysis quantifies this gap: pre-2000 titles have a coverage rate near zero percent compared to 41.6 to 57.2 percent for post-2000 titles. Any score based analysis reflects the modern era, not the full history of the industry.
 
 **Aggregation bias.** The 12 genre labels in this dataset collapse substantial internal variation. Action games range from 2D platformers to open world shooters. Sports games include both simulation and arcade titles. Genre level summaries mask the within genre diversity that would matter most in a real content recommendation or design context.
 
 **Scope.** The dataset reflects the physical disc based console market sold through Western retail channels. It does not include mobile, PC digital, free to play, or post 2016 titles. Conclusions about the game industry as a whole should not be drawn from this data alone.
+
+**How cleaning choices can introduce bias.** The cleaning decisions in this project were made deliberately to avoid distorting the dataset, but different choices would have produced systematically different results. The most consequential decision was retaining NaN values in the review columns rather than dropping rows that lack critic or user scores. If those rows had been dropped, nearly all pre-2000 titles would have been eliminated from the dataset, because review coverage for that era is near zero percent. Every downstream genre distribution count, platform sales summary, and era comparison would then reflect the 2000 to 2012 disc based console market rather than the full commercial history. The pattern would appear to be a real market finding when it was actually an artifact of how missing data were handled. A similar risk applies to duplicate removal and the choice of essential fields for null filtering. If the criteria for dropping rows had been applied more aggressively, for example by also dropping rows missing ESRB rating or critic score, genre counts and global sales totals would shift in ways that look like legitimate market patterns but are driven entirely by which rows the cleaning pipeline chose to exclude (Danchev, 2022).
 
 These limitations are discussed in detail in Section 8 of the notebook and in the `module_summary.pdf` report.
 
@@ -108,7 +110,7 @@ The cleaned dataset is structured as a flat feature table suitable for supervise
 
 ### How this dataset would need to change for neural networks
 
-Neural networks are not well suited to tabular data at this scale. The cleaned dataset has roughly 17,000 rows, which is likely too small for deep learning to outperform tree based models. A neural approach would require augmenting the dataset with richer inputs: review text from Metacritic or Steam, cover art, genre tag graphs, or gameplay feature embeddings derived from descriptions. The systematic review coverage gap for pre-2000 titles would also become a more serious problem in a neural setting, because a model trained on this data would have almost no signal for that era and would need explicit era conditioning to handle it appropriately.
+Neural networks are not well suited to tabular data at this scale. The cleaned dataset has roughly 17,000 rows, which is likely too small for deep learning to outperform tree based models (Grinsztajn et al., 2022). A neural approach would require augmenting the dataset with richer inputs: review text from Metacritic or Steam, cover art, genre tag graphs, or gameplay feature embeddings derived from descriptions. The systematic review coverage gap for pre-2000 titles would also become a more serious problem in a neural setting, because a model trained on this data would have almost no signal for that era and would need explicit era conditioning to handle it appropriately.
 
 ### How agentic automation could assist this workflow
 

@@ -27,9 +27,9 @@ The workflow is implemented in five stages, each corresponding to a section of t
 
 **Ingestion.** The raw dataset is stored as a zip archive in `data/raw/` and extracted programmatically at runtime. The notebook uses `pd.read_csv` to load the extracted CSV and displays the first rows to confirm successful ingestion.
 
-**Cleaning.** Three functions in `src/cleaning.py` apply sequential transformations. `clean_column_names` standardizes column names to lowercase with underscores. `handle_missing_values` drops duplicate rows and removes rows missing values in four essential fields: name, genre, publisher, and year of release. Review related fields retain NaN because their missingness is era driven rather than a data error, and removing those rows would eliminate nearly all pre-2000 titles from the dataset. `clean_column_types` runs last and converts `year_of_release` from float64 to int64, a step that is only safe after rows with missing year values have been removed.
-
 **Inspection.** A reusable `inspect_dataframe` function in `src/inspection.py` prints a structured report covering shape, data types, memory usage, missing values, duplicate rows, numeric and categorical statistics, and sample rows. This function is applied to both the raw and cleaned datasets to document the effect of each cleaning step.
+
+**Cleaning.** Three functions in `src/cleaning.py` apply sequential transformations. `clean_column_names` standardizes column names to lowercase with underscores. `handle_missing_values` drops duplicate rows and removes rows missing values in four essential fields: name, genre, publisher, and year of release. Review related fields retain NaN because their missingness is era driven rather than a data error, and removing those rows would eliminate nearly all pre-2000 titles from the dataset. `clean_column_types` runs last and converts `year_of_release` from float64 to int64, a step that is only safe after rows with missing year values have been removed.
 
 **Exploratory analysis.** A `summarize_game_market` function in `src/eda.py` returns four grouped summary tables: game counts with total and mean global sales by genre, the same by platform, and mean critic and user scores by genre and by platform. Seven targeted EDA questions build on these summaries to examine genre distribution, sales concentration, regional breakdown, score patterns, and release volume over time.
 
@@ -67,13 +67,17 @@ North America accounts for the largest share of global sales in this dataset, fo
 
 ## Responsible Practice
 
-This analysis applies the bias taxonomy described in the NIST AI Risk Management Framework (National Institute of Standards and Technology, 2023), which identifies historical bias, measurement bias, and aggregation bias as recurring sources of systematic error in data-driven work.
+This analysis applies the bias taxonomy described in the NIST AI Risk Management Framework (National Institute of Standards and Technology, 2023), which identifies historical bias, measurement bias, and aggregation bias as recurring sources of systematic error in data-driven work. The assessment structure follows the first three steps of the Fairlearn fairness assessment workflow applied to the dataset rather than to a model: harm identification, group identification, and harm quantification (Bird et al., 2020).
 
 **Historical bias** is present in the sales estimates, which were built retrospectively from retail scanner data and community contributions. Early console generations have sparse coverage, and the Japanese market is systematically underrepresented relative to its actual share of global game revenue. Sales figures for pre-1985 titles are unreliable and treated as indicative only.
 
-**Measurement bias** is present in the review data. Metacritic launched in 2001, so titles released before that year carry almost no review data. The analysis quantifies this gap: pre-2000 titles have a review coverage rate near zero percent, compared to typically between 36 and 76 percent for post-2000 titles. The disparate coverage ratio is approximately 0.07, meaning early era titles are reviewed at about 7 percent of the rate of later titles. Any score based conclusion reflects the post-2000 era and cannot be generalized to earlier game history. When missing data are not random, common cleaning approaches can shift results and amplify the underlying bias (Danchev, 2022).
+**Measurement bias** is present in the review data. Metacritic launched in 2001, so titles released before that year carry almost no review data. The analysis quantifies this gap: pre-2000 titles have a review coverage rate near zero percent, compared to 41.6 to 57.2 percent for post-2000 titles. The disparate coverage ratio is approximately 0.09, meaning early era titles are reviewed at about 7 percent of the rate of later titles. Any score based conclusion reflects the post-2000 era and cannot be generalized to earlier game history. When missing data are not random, common cleaning approaches can shift results and amplify the underlying bias (Danchev, 2022).
 
 **Aggregation bias** is introduced by the 12 genre labels in the dataset. These labels collapse substantial internal variation. Action games range from 2D platformers to open world shooters. Sports games include both simulation and arcade titles. Genre level summaries are useful for market characterization but mask the within genre diversity that would matter in a content recommendation or design context.
+
+**Scope** limits the generalizability of all findings. The dataset covers the physical disc based console market distributed through Western retail channels and does not include mobile titles, PC digital storefronts, free to play games, or releases after 2016. Any conclusions drawn from this analysis describe conditions in that specific market segment and should not be generalized to the game industry as a whole.
+
+**Cleaning-induced bias** is a risk in any workflow where missingness is non-random. The most consequential cleaning decision in this project was retaining NaN values in the review columns rather than dropping those rows. If review-missing rows had been dropped, nearly all pre-2000 titles would have been eliminated, and every genre distribution count, platform comparison, and era analysis would describe only the 2000 to 2012 disc based console market. The result would appear to be a market finding but would actually reflect a cleaning choice. A similar risk applies to the criteria used for essential field filtering: dropping rows missing ESRB rating or critic score would shift genre counts and sales totals in ways that mimic real market patterns rather than reveal them (Danchev, 2022).
 
 Mitigation steps taken in this project include separating sales based conclusions from score based conclusions, explicitly documenting the reviewed subset size relative to the full dataset, and scoping all findings to the 2000 to 2012 disc based console market rather than the game industry as a whole.
 
@@ -105,11 +109,13 @@ This analysis was designed as a market context layer, not a model training pipel
 
 Anderson, C. (2006). *The long tail: Why the future of business is selling less of more*. Hyperion.
 
+Bird, S., Dudík, M., Edgar, R., Horn, B., Lutz, R., Milan, V., Sameki, M., Wallach, H., & Walker, K. (2020). *Fairlearn: A toolkit for assessing and improving fairness in AI*. Microsoft Research. [https://www.microsoft.com/en-us/research/publication/fairlearn-a-toolkit-for-assessing-and-improving-fairness-in-ai/](https://www.microsoft.com/en-us/research/publication/fairlearn-a-toolkit-for-assessing-and-improving-fairness-in-ai/)
+
 Danchev, V. (2022). Reproducible Data Science with Python: An Open Learning Resource. *Journal of Open Source Education, 5*(56), 156. [https://doi.org/10.21105/jose.00156](https://doi.org/10.21105/jose.00156)
 
-Grinsztajn, L., Oyallon, E., & Varoquaux, G. (2022). Why tree-based models still outperform deep learning on tabular data. *Advances in Neural Information Processing Systems, 35*, 507–520.
+Grinsztajn, L., Oyallon, E., & Varoquaux, G. (2022). Why do tree-based models still outperform deep learning on typical tabular data? *Advances in Neural Information Processing Systems, 35*, 507–520.
 
-kendallgillies. (2017). *Video game sales and ratings* [Data set]. Kaggle. https://www.kaggle.com/datasets/kendallgillies/video-game-sales-and-ratings/data
+kendallgillies. (2017). *Video game sales and ratings* [Data set]. Kaggle. [https://www.kaggle.com/datasets/kendallgillies/video-game-sales-and-ratings/data](https://www.kaggle.com/datasets/kendallgillies/video-game-sales-and-ratings/data)
 
 National Institute of Standards and Technology. (2023). *Artificial intelligence risk management framework (AI RMF 1.0)*. U.S. Department of Commerce. [https://doi.org/10.6028/NIST.AI.100-1](https://doi.org/10.6028/NIST.AI.100-1)
 
