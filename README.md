@@ -90,7 +90,7 @@ This dataset carries several well defined biases that affect how results should 
 
 **Historical bias.** VGChartz sales estimates were built retrospectively from retail scanner data and community contributions. Early console generations (pre-NES) have little to no coverage, and Japanese domestic titles are systematically underrepresented relative to their actual market share. Sales figures should be treated as directional estimates rather than authoritative counts.
 
-**Measurement bias.** Critic and user scores come from Metacritic, which launched in 2001. Titles released before that year have almost no review coverage. The analysis quantifies this gap: pre-2000 titles have a coverage rate near zero percent compared to 41.6 to 57.2 percent for post-2000 titles. Any score based analysis reflects the modern era, not the full history of the industry.
+**Measurement bias.** Critic and user scores come from Metacritic, which launched in 2001. Titles released before that year have almost no review coverage. The analysis quantifies this gap: pre-2000 titles have a coverage rate of 4.3 percent compared to 41.6 to 57.2 percent for post-2000 titles. Any score based analysis reflects the modern era, not the full history of the industry.
 
 **Aggregation bias.** The 12 genre labels in this dataset collapse substantial internal variation. Action games range from 2D platformers to open world shooters. Sports games include both simulation and arcade titles. Genre level summaries mask the within genre diversity that would matter most in a real content recommendation or design context.
 

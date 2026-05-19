@@ -25,9 +25,9 @@ The dataset represents the physical disc based console market sold primarily thr
 
 The workflow is implemented in five stages, each corresponding to a section of the Jupyter notebook.
 
-**Ingestion.** The raw dataset is stored as a zip archive in `data/raw/` and extracted programmatically at runtime. The notebook uses `pd.read_csv` to load the extracted CSV and displays the first rows to confirm successful ingestion.
+**Ingestion.** The raw dataset is stored as a zip archive in `data/raw/` and loaded directly from the archive at runtime without extraction to disk. The notebook uses `zipfile.ZipFile` to open the archive and passes the internal file handle to `pd.read_csv`, then displays the first rows to confirm successful ingestion.
 
-**Inspection.** A reusable `inspect_dataframe` function in `src/inspection.py` prints a structured report covering shape, data types, memory usage, missing values, duplicate rows, numeric and categorical statistics, and sample rows. This function is applied to both the raw and cleaned datasets to document the effect of each cleaning step.
+**Inspection.** A reusable `inspect_dataframe` function in `src/inspection.py` prints a structured report covering shape, data types, memory usage, missing values, duplicate rows, numeric and categorical statistics, and sample rows. This function is applied to both the raw dataset and the cleaned dataset to document the effect of each cleaning step.
 
 **Cleaning.** Three functions in `src/cleaning.py` apply sequential transformations. `clean_column_names` standardizes column names to lowercase with underscores. `handle_missing_values` drops duplicate rows and removes rows missing values in four essential fields: name, genre, publisher, and year of release. Review related fields retain NaN because their missingness is era driven rather than a data error, and removing those rows would eliminate nearly all pre-2000 titles from the dataset. `clean_column_types` runs last and converts `year_of_release` from float64 to int64, a step that is only safe after rows with missing year values have been removed.
 
@@ -71,7 +71,7 @@ This analysis applies the bias taxonomy described in the NIST AI Risk Management
 
 **Historical bias** is present in the sales estimates, which were built retrospectively from retail scanner data and community contributions. Early console generations have sparse coverage, and the Japanese market is systematically underrepresented relative to its actual share of global game revenue. Sales figures for pre-1985 titles are unreliable and treated as indicative only.
 
-**Measurement bias** is present in the review data. Metacritic launched in 2001, so titles released before that year carry almost no review data. The analysis quantifies this gap: pre-2000 titles have a review coverage rate near zero percent, compared to 41.6 to 57.2 percent for post-2000 titles. The disparate coverage ratio is approximately 0.09, meaning early era titles are reviewed at about 9 percent of the rate of later titles. Any score based conclusion reflects the post-2000 era and cannot be generalized to earlier game history. When missing data are not random, common cleaning approaches can shift results and amplify the underlying bias (Danchev, 2022).
+**Measurement bias** is present in the review data. Metacritic launched in 2001, so titles released before that year carry almost no review data. The analysis quantifies this gap: pre-2000 titles have a review coverage rate of 4.3 percent, compared to 41.6 to 57.2 percent for post-2000 titles. The disparate coverage ratio is approximately 0.09, meaning early era titles are reviewed at about 9 percent of the rate of later titles. Any score based conclusion reflects the post-2000 era and cannot be generalized to earlier game history. When missing data are not random, common cleaning approaches can shift results and amplify the underlying bias (Danchev, 2022).
 
 **Aggregation bias** is introduced by the 12 genre labels in the dataset. These labels collapse substantial internal variation. Action games range from 2D platformers to open world shooters. Sports games include both simulation and arcade titles. Genre level summaries are useful for market characterization but mask the within genre diversity that would matter in a content recommendation or design context.
 
@@ -113,7 +113,7 @@ Bird, S., Dudík, M., Edgar, R., Horn, B., Lutz, R., Milan, V., Sameki, M., Wall
 
 Danchev, V. (2022). Reproducible Data Science with Python: An Open Learning Resource. *Journal of Open Source Education, 5*(56), 156. [https://doi.org/10.21105/jose.00156](https://doi.org/10.21105/jose.00156)
 
-Grinsztajn, L., Oyallon, E., & Varoquaux, G. (2022). Why do tree-based models still outperform deep learning on typical tabular data? *Advances in Neural Information Processing Systems, 35*, 507–520.
+Grinsztajn, L., Oyallon, E., & Varoquaux, G. (2022). Why do tree-based models still outperform deep learning on tabular data? *Advances in Neural Information Processing Systems, 35*, 507–520.
 
 kendallgillies. (2017). *Video game sales and ratings* [Data set]. Kaggle. [https://www.kaggle.com/datasets/kendallgillies/video-game-sales-and-ratings/data](https://www.kaggle.com/datasets/kendallgillies/video-game-sales-and-ratings/data)
 
