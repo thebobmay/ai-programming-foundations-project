@@ -1,7 +1,7 @@
 # Reproducible Data Workflow for Video Game Sales, Ratings, and Genre Trends
 
 **Robert Mayfield**
-Udacity AI MBA Capstone: Project 1 of 7
+Udacity AI MBA Capstone: Programming Foundations Project
 
 ---
 
