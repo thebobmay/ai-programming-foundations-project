@@ -87,7 +87,7 @@ Mitigation steps taken in this project include separating sales based conclusion
 
 The project is structured to allow full reproduction by a reviewer with Python and Git installed. All source code is version controlled in a GitHub repository with multiple commits across a development branch and main branch. The notebook is designed to run from a clean kernel state using Kernel > Restart and Run All without modification to any file paths or configuration values.
 
-The `requirements.txt` file captures exact package versions from the development environment. Core dependencies are pandas 2.3.3, numpy 2.3.5, matplotlib 3.10.6, and seaborn 0.13.2. The raw dataset is included in the repository as a zip archive in `data/raw/` and is extracted automatically during notebook execution. No external API calls or network requests are made during any step of the workflow.
+The `requirements.txt` file is a complete pip freeze output generated from a clean virtual environment containing only the five direct project dependencies and their transitive dependencies, totaling 108 pinned packages. The five direct dependencies are pandas 2.3.3, numpy 2.3.5, matplotlib 3.10.6, seaborn 0.13.2, and jupyter 1.1.1. The raw dataset is included in the repository as a zip archive in `data/raw/` and is read directly by the notebook without extraction. No external API calls or network requests are made during any step of the workflow.
 
 The `src/` directory separates reusable cleaning, inspection, and EDA logic from the notebook itself, allowing each function to be imported and tested independently of the Jupyter environment. This structure reflects the principle that reproducible workflows benefit from modular, version controlled code components (Danchev, 2022).
 
