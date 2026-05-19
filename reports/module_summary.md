@@ -33,7 +33,7 @@ The workflow is implemented in five stages, each corresponding to a section of t
 
 **Exploratory analysis.** A `summarize_game_market` function in `src/eda.py` returns four grouped summary tables: game counts with total and mean global sales by genre, the same by platform, and mean critic and user scores by genre and by platform. Seven targeted EDA questions build on these summaries to examine genre distribution, sales concentration, regional breakdown, score patterns, and release volume over time.
 
-**Visualization.** Four polished figures are saved to `outputs/figures/` and displayed in the notebook. Each figure is followed by a Markdown interpretation cell.
+**Visualization.** Five figures are saved to `outputs/figures/` and displayed in the notebook. Four figures appear in the Visualizations section (Section 7), each followed by a Markdown interpretation cell. A fifth figure appears in the Responsible Data Handling section (Section 8) and presents the era and genre coverage analysis used to quantify measurement and aggregation bias.
 
 ---
 
@@ -53,7 +53,7 @@ The workflow is implemented in five stages, each corresponding to a section of t
 
 ## Results and Interpretation
 
-Figure 1 shows genre distribution by title count and total global sales. Action is the most represented genre with 3,500 titles. Sports and role playing games rank second and third by count. By total global sales, however, Sports produces more revenue than most higher count genres, indicating that Sports titles sell at a higher average rate per game than Action titles. Shooter and Platform genres also generate disproportionately high revenue relative to their title counts, pointing to a systematic difference between volume driven and revenue-efficient genre segments.
+Figure 1 shows genre distribution by title count and total global sales. Action is the most represented genre with 3,500 titles. Sports ranks second and Misc ranks third by title count, with Role-Playing ranking fourth. By total global sales, however, Sports produces more revenue than most higher count genres, indicating that Sports titles sell at a higher average rate per game than Action titles. Shooter and Platform genres also generate disproportionately high revenue relative to their title counts, pointing to a systematic difference between volume driven and revenue-efficient genre segments.
 
 Figure 2 shows the global sales distribution on a log scale. The distribution is strongly right skewed: a small number of titles account for a large share of total industry sales, while the majority of games sell fewer than one million units globally. This long tail structure, in which a small number of hits dominate revenue while a large volume of modest sellers collectively contribute the remainder, is a well documented pattern in media and entertainment markets (Anderson, 2006). The Moderate commercial tier, defined as 0.1 to 1 million global sales, contains 48.3 percent of all titles and serves as the realistic benchmark for midrange commercial performance.
 
@@ -71,7 +71,7 @@ This analysis applies the bias taxonomy described in the NIST AI Risk Management
 
 **Historical bias** is present in the sales estimates, which were built retrospectively from retail scanner data and community contributions. Early console generations have sparse coverage, and the Japanese market is systematically underrepresented relative to its actual share of global game revenue. Sales figures for pre-1985 titles are unreliable and treated as indicative only.
 
-**Measurement bias** is present in the review data. Metacritic launched in 2001, so titles released before that year carry almost no review data. The analysis quantifies this gap: pre-2000 titles have a review coverage rate near zero percent, compared to 41.6 to 57.2 percent for post-2000 titles. The disparate coverage ratio is approximately 0.09, meaning early era titles are reviewed at about 7 percent of the rate of later titles. Any score based conclusion reflects the post-2000 era and cannot be generalized to earlier game history. When missing data are not random, common cleaning approaches can shift results and amplify the underlying bias (Danchev, 2022).
+**Measurement bias** is present in the review data. Metacritic launched in 2001, so titles released before that year carry almost no review data. The analysis quantifies this gap: pre-2000 titles have a review coverage rate near zero percent, compared to 41.6 to 57.2 percent for post-2000 titles. The disparate coverage ratio is approximately 0.09, meaning early era titles are reviewed at about 9 percent of the rate of later titles. Any score based conclusion reflects the post-2000 era and cannot be generalized to earlier game history. When missing data are not random, common cleaning approaches can shift results and amplify the underlying bias (Danchev, 2022).
 
 **Aggregation bias** is introduced by the 12 genre labels in the dataset. These labels collapse substantial internal variation. Action games range from 2D platformers to open world shooters. Sports games include both simulation and arcade titles. Genre level summaries are useful for market characterization but mask the within genre diversity that would matter in a content recommendation or design context.
 
@@ -87,7 +87,7 @@ Mitigation steps taken in this project include separating sales based conclusion
 
 The project is structured to allow full reproduction by a reviewer with Python and Git installed. All source code is version controlled in a GitHub repository with multiple commits across a development branch and main branch. The notebook is designed to run from a clean kernel state using Kernel > Restart and Run All without modification to any file paths or configuration values.
 
-The `requirements.txt` file captures exact package versions from the development environment. Core dependencies are pandas 2.3.0, numpy 2.4.3, matplotlib 3.10.8, and seaborn 0.13.2. The raw dataset is included in the repository as a zip archive in `data/raw/` and is extracted automatically during notebook execution. No external API calls or network requests are made during any step of the workflow.
+The `requirements.txt` file captures exact package versions from the development environment. Core dependencies are pandas 2.3.3, numpy 2.3.5, matplotlib 3.10.6, and seaborn 0.13.2. The raw dataset is included in the repository as a zip archive in `data/raw/` and is extracted automatically during notebook execution. No external API calls or network requests are made during any step of the workflow.
 
 The `src/` directory separates reusable cleaning, inspection, and EDA logic from the notebook itself, allowing each function to be imported and tested independently of the Jupyter environment. This structure reflects the principle that reproducible workflows benefit from modular, version controlled code components (Danchev, 2022).
 
@@ -109,7 +109,7 @@ This analysis was designed as a market context layer, not a model training pipel
 
 Anderson, C. (2006). *The long tail: Why the future of business is selling less of more*. Hyperion.
 
-Bird, S., Dudík, M., Edgar, R., Horn, B., Lutz, R., Milan, V., Sameki, M., Wallach, H., & Walker, K. (2020). *Fairlearn: A toolkit for assessing and improving fairness in AI*. Microsoft Research. [https://www.microsoft.com/en-us/research/publication/fairlearn-a-toolkit-for-assessing-and-improving-fairness-in-ai/](https://www.microsoft.com/en-us/research/publication/fairlearn-a-toolkit-for-assessing-and-improving-fairness-in-ai/)
+Bird, S., Dudík, M., Edgar, R., Horn, B., Lutz, R., Milan, V., Sameki, M., Wallach, H., & Walker, K. (2020). *Fairlearn: A toolkit for assessing and improving fairness in AI* (Report No. MSR-TR-2020-32). Microsoft Research. [https://www.microsoft.com/en-us/research/publication/fairlearn-a-toolkit-for-assessing-and-improving-fairness-in-ai/](https://www.microsoft.com/en-us/research/publication/fairlearn-a-toolkit-for-assessing-and-improving-fairness-in-ai/)
 
 Danchev, V. (2022). Reproducible Data Science with Python: An Open Learning Resource. *Journal of Open Source Education, 5*(56), 156. [https://doi.org/10.21105/jose.00156](https://doi.org/10.21105/jose.00156)
 

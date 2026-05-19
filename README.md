@@ -73,7 +73,7 @@ README.md                   # This file
   ```
    pip install -r requirements.txt
   ```
-3. Extract the dataset. The zip file is already in `data/raw/`. The notebook extracts it automatically during the Data Ingestion section. No manual extraction is needed.
+3. The zip file is in `data/raw/`. The notebook reads from it directly without extracting any files. No manual action is needed.
 4. Launch the notebook:
   ```
    jupyter notebook notebooks/data_workflow.ipynb
