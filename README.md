@@ -1,6 +1,6 @@
 # Reproducible Data Workflow for Video Game Sales, Ratings, and Genre Trends
 
-**Udacity AI MBA Capstone: Project 1 of 7**
+**Udacity AI MBA Capstone: Programming Foundations Project**
 
 ---
 
@@ -96,7 +96,7 @@ This dataset carries several well defined biases that affect how results should 
 
 **Scope.** The dataset reflects the physical disc based console market sold through Western retail channels. It does not include mobile, PC digital, free to play, or post 2016 titles. Conclusions about the game industry as a whole should not be drawn from this data alone.
 
-**How cleaning choices can introduce bias.** The cleaning decisions in this project were made deliberately to avoid distorting the dataset, but different choices would have produced systematically different results. The most consequential decision was retaining NaN values in the review columns rather than dropping rows that lack critic or user scores. If those rows had been dropped, nearly all pre-2000 titles would have been eliminated from the dataset, because review coverage for that era is near zero percent. Every downstream genre distribution count, platform sales summary, and era comparison would then reflect the 2000 to 2012 disc based console market rather than the full commercial history. The pattern would appear to be a real market finding when it was actually an artifact of how missing data were handled. A similar risk applies to duplicate removal and the choice of essential fields for null filtering. If the criteria for dropping rows had been applied more aggressively, for example by also dropping rows missing ESRB rating or critic score, genre counts and global sales totals would shift in ways that look like legitimate market patterns but are driven entirely by which rows the cleaning pipeline chose to exclude (Danchev, 2022).
+**How cleaning choices can introduce bias.** The cleaning decisions in this project were made deliberately to avoid distorting the dataset, but different choices would have produced systematically different results. The most consequential decision was retaining NaN values in the review columns rather than dropping rows that lack critic or user scores. If those rows had been dropped, nearly all pre-2000 titles would have been eliminated from the dataset, because review coverage for that era is 4.3 percent. Every downstream genre distribution count, platform sales summary, and era comparison would then reflect the 2000 to 2012 disc based console market rather than the full commercial history. The pattern would appear to be a real market finding when it was actually an artifact of how missing data were handled. A similar risk applies to duplicate removal and the choice of essential fields for null filtering. If the criteria for dropping rows had been applied more aggressively, for example by also dropping rows missing ESRB rating or critic score, genre counts and global sales totals would shift in ways that look like legitimate market patterns but are driven entirely by which rows the cleaning pipeline chose to exclude (Danchev, 2022).
 
 These limitations are discussed in detail in Section 8 of the notebook and in the `module_summary.pdf` report.
 
